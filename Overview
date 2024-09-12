@@ -1,0 +1,7 @@
+Structura curs:
+
+1. Selectori (selenium)
+2. Frameworkuri care folosesc selectorii (existenti in libraria selenium)
+- Libraria unitTest
+- BDD
+- API Testing

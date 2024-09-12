@@ -1,0 +1,85 @@
+1. Ce este un API?
+O interfata prin intermediul caruia se asigura comunicarea intre doua aplicatii.
+De regula, vorbim despre comunicarea intre o aplicatie web si un server
+            care server ulterior trimite informatiile catre baza de date.
+
+2. Cum functioneaza transmiterea de informatii?
+- GUI transmite informatia catre un web server prin intermediul unui API
+- Web server-ul verifica daca informatia transmisa este corecta
+            conform regulilor de transmitere date (adica spre exemplu daca
+                        toate campurile obligatorii sunt completate,
+                        daca regulile de sintaxa sunt respectate,
+                        daca informatia transmisa este in formatul corect etc)
+- web server-ul transmite informatia mai departe catre un database server (de multe ori
+            tot prin intermediul unui api)
+
+- serverul de baze de date verifica daca solicitarea primita este corecta
+                (daca instructiunea de baze de date este corecta din punct de vedere sintaxa,
+                 daca informatia ceruta exista - GET,
+                 daca informatia solicitata deja exista - PUT, POST, PATCH)
+
+- Dupa ce serverul de baze de date proceseaza requestul, el transmite un raspuns
+                    catre web server, iar acel web server transmite
+                    la randul lui raspunsul catre GUI
+
+3. Ce este o metoda HTTP?
+Actiuni specifice definite cu scopul de a instrui sistemul in directia executarii anumitor pasi
+            de interactiune cu o baza de date directionata dintr-o aplicatie web.
+
+4. Care sunt cele mai folosite metode HTTP?
+- GET = folosit pentru a solicita extragerea (citirea) informatiilor existente in baza de date
+- PUT = folosit pentru a actualiza in mod complet o resursa dintr-o baza de date.
+            Ce se intampla de fapt in spate, se sterge resursa din baza de date
+                    si se recreaza cu informatiile furnizate
+- POST = folosit pentru a crea o resursa noua intr-o baza de date
+- DELETE = folosit pentru a sterge o resursa existenta
+- PATCH  = folosit pentru a actualiza partial o resursa existenta
+
+Comparatie PUT vs PATCH
+
+CLIENTI
+id      nume        prenume     telefon         cnp
+1       Popescu     Ion                         1690125678450
+1       Ionescu     Maria                       2830514664659
+
+PUT: {"cnp":"1690125678451"}
+PATCH: {"cnp":"2830514664650"}
+
+CLIENTI
+id      nume        prenume     telefon         cnp
+                                                1690125678451
+1       Ionescu     Maria                       2830514664650
+
+
+5. Care sunt cele mai frecvente coduri de status utilizate in API?
+ 2xx - Coduri de executare cu succes al unui request
+ 3xx - Redirectionare catre alta pagina (cel mai frecvent este 302)
+ 4xx - Coduri de eroare de client (adica utilizatorul a trimis o informatie gresita)
+ 5xx - Coduri de eroare de server (adica utilizatorul a trimis informatii corecte,
+                    dar serverul nu a putut sau nu a stiut sa le proceseze)
+
+a) 2xx - 200 -> citire de informatii cu succes
+       - 201 -> scriere de informatii cu succes
+       - 204 -> requestul a fost procesat,
+                dar nu a returnat niciun response body (No Content)
+
+b) 3xx - 302
+
+c) 4xx - 401 -> Nu suntem logati in aplicatie si sistemul nu poate sa decida
+                        daca avem drept de acces la resursa sau nu
+       - 403 -> Suntem logati in aplicatie si sistemul a identificat
+                        faptul ca nu avem dreptul de a accesa resursa in cauza
+       - 404 -> Page not found (pagina cautata nu exista pe server)
+
+6. Ce este un endpoint?
+Adresa de pe server (folderul) in care se afla resursa pe care vrem sa o accesam
+        sau locul in care vrem sa cream o resursa
+
+
+
+FRAMEWORK:
+- requests_folder -> contine metode care mapeaza formatul requesturilor de API
+- tests -> contine metode de test care apeleaza metodele de tip request
+                    si care valideaza concret response-ul unui request de API
+
+

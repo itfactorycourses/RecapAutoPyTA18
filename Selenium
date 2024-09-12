@@ -1,0 +1,136 @@
+Selenium este un pacher (librarie) care se foloseste cu scopul de a simula interactiunea
+        cu o aplicatie web
+
+Exista urmatorii selectori cu care putem interactiona:
+
+1. XPATH
+2. CSS
+3. ID
+4. CLASSNAME
+5. Link Text
+6. Partial Link Text
+7. Name
+8. Tag
+
+Intrebare1: Cum alegem selectorii?
+Raspuns: In general, in 99% din cazuri, daca elementul are un id, atunci putem sa consideram
+            ca acesta este unic si putem sa il folosim (si chiar este recomandat sa il folosim)
+         Pentru situatiile in care id-ul fie nu exista fie este unic, putem sa ne folosim
+            de XPATH sau CSS Selector
+
+         Daca vrem sa identificam un element de tip link, putem sa ne folosim
+                   fie de link text fie de partial link text
+
+         Daca vrem sa identificam un set de elemente, putem sa identificam prin mai multe metode
+                    cum ar fi XPATH, CSS Selector, ClassName sau Name, cu conditia ca
+                    acel selector sa ne identifice DOAR elementele de care avem nevoie
+
+         In general nu prea se foloseste selectorul de tip tag decat in cazuri foarte exceptionale.
+         Ex: Daca suntem pe pagina de login si vrem sa identificam toate elementele de tip input
+                (pe o pagina de login nu prea sunt sanse sa avem alte elemente de tip input)
+
+Intrebare 2: Ce are in plus un CSS Selector fata de un XPATH?
+Raspuns? E mai rapid
+
+Intrebare 3: Ce are in plus un XPATH fata de un CSS selector?
+Raspuns: La XPATH putem sa facem cautare din parinte in copil si din frate anterior in frate posterior
+                    SAU din copil in parinte si din frate posterior in frate anterior
+         La CSS putem sa facem cautare DOAR din parinte in copil sau din frate anterior in frate posterior
+
+Intrebare 3: Ce este un element?
+Raspuns: O componenta a unei pagini HTML care deserveste la definirea structurii acelei pagini
+
+Intrebare 4: Ce este un Link Text?
+Raspuns: Un text care este pus peste un element de tip ancora
+            cu scopul de a ii oferi un format mai usor de inteles intr-o pagina web
+
+Intrebare 5: Care e diferenta intre Link Text si Partial Link Text?
+Raspuns: Atunci cand facem cautare dupa Link Text suntem obligati sa furnizam toata valoarea linkului, in caz contrar
+                    nu ni se returneaza rezultate
+         La partial link text putem sa punem doar o parte din link textul care ne intereseaza
+                    cu conditia ca acela sa identifice elementul in mod unic
+
+driver.find_element(By.LINK_TEXT,"Laptop, Tablete & Telefoane")
+driver.find_element(By.PARTIAL_LINK_TEXT,"Laptop")
+driver.find_element(By.PARTIAL_LINK_TEXT,"Tablete")
+driver.find_element(By.PARTIAL_LINK_TEXT,"Telefoane")
+driver.find_element(By.PARTIAL_LINK_TEXT,"&")
+
+
+driver.find_element(By.LINK_TEXT,"Conditii generale privind furnizarea serviciilor postale")
+driver.find_element(By.PARTIAL_LINK_TEXT,"Conditii generale")
+
+
+Intrebare 6: Cum identificam un element cu mai multe clase in HTML
+            (adica un element care are formatarea definita de mai multe clase?
+Raspuns:  Fiecare clasa este separata de clasa vecina prin spatiu
+
+In elementul de mai jos avem trei clase:
+- jsg-emag-help-btn
+- emag-help-btn
+- gtm_tnchfgdtyq
+<button class="jsg-emag-help-btn emag-help-btn gtm_tnchfgdtyq">Suport online</button>
+
+Intrebare 7: Cum tratam un element cu mai multe clase atunci cand facem cautare dupa classname vs XPATH?
+Raspuns:
+- Daca facem cautare dupa clasa, putem sa facem cautare doar dupa O SINGURA CLASA concomitent
+- Daca facem cautare dupa XPATH, atunci cand punem perechea atribut = valoare,
+            unde atributul este class si valoarea este numele clasei suntem obligati sa scriem TOATE CLASELE,
+            altfel elementul nu va fi identificat
+
+driver.find_element(By.CLASSNAME,"jsg-emag-help-btn"),driver.find_element(By.CLASSNAME,"emag-help-btn"),driver.find_element(By.CLASSNAME,"gtm_tnchfgdtyq")
+driver.find_element(By.XPATH,'//button[@class="jsg-emag-help-btn emag-help-btn gtm_tnchfgdtyq"]') SAU driver.find_element(By.XPATH,'//*[@class="jsg-emag-help-btn emag-help-btn gtm_tnchfgdtyq"]')
+
+Intrebarea 8: Cum identificam un element care este filtrat doar dupa o pereche atribut=valoare in XPATH, indiferent de tag?
+Raspuns: Tag-ul va fi inlocuit cu *
+
+//*[@class="active"]
+//*[@id="eeret£$%"]
+//*[@title="Conditii generale privind furnizarea serviciilor postale"]
+//*[@data-navbar-fx-offset="575"]
+
+Intrebarea 9: Cum putem sa filtram un element de tip XPATH atunci cand sunt mai multe elemente cu acelasi tag?
+Raspuns: Pe baza perechilor atribut=valoare
+
+Intrebarea 10: Cum putem sa identificam perechile atribut = valaore intr-un element?
+Raspuns: Perechile atribut valoare se regasesc in tag-ul de deschidere al unui element, pozitionate dupa numele tag-ului
+            atributul si valoarea sunt separate de caracterul "="
+            unde atributul se afla in stanga egalului si valoarea in dreapta egalului
+
+Intrebarea 11: Ce trebuie sa scriem musai la un XPATH pentru a face cautare dupa atribut=valoare?
+Raspuns: Trebuie specificat caracterul "@" inainte atributului
+
+Intrebarea 12: Cum se identifica in general perechile atribut=valoare?
+Raspuns: Intotdeauna sunt identificate prin paranteze patrate
+
+In HTML INTOTDEAUNA perechile atribut=valoare se vor plasa intre paranteze patrate
+In Python, regula asta trebuie ranforsata doar la cautarea dupa XPATH si CSS Selector, pentru ca doar aici
+            specificam in clar si numele atributului si valoarea lui
+            In celelalte cazuri, numele atributului este dedus de sistem de numele selectorului
+driver.find_element(By.CLASSNAME,"jsg-emag-help-btn")
+driver.find_element(By.XPATH,'//button[@class="jsg-emag-help-btn emag-help-btn gtm_tnchfgdtyq"]')
+
+Intrebarea 13: Care e diferenta intre XPATH Relativ si XPATH Absolut?
+Raspuns:
+- XPATH Absolut reprezinta adresa completa a elementului care se bazeaza pe ierarhia parinte-copil de la inceputul
+                documentului pana in punctul unde elementul este identificat
+- XPATH Relativ reprezinta adresa elementului identificata pe baza filtrarii de tip atribut=valoare
+                si a ierarhiei indirecte a elementelor (adica putem sa sarim de la un parinte
+                                    la un urmas, chiar daca nu e copil direct)
+
+Exemplu XPATH Absolut: /html/body/div[2]/div/div/div/div[2]/div[2]/form/div[9]/div[2]/textarea
+                       /html/body/div[2]/div/div/div/div[3]/div[2]/form/div[9]/div[2]/textarea
+
+Structura de baza XPATH:
+//tag[@atribut1=valoare1 and @atribut2=valoare2 and @atribut3=valoare3]
+//tag[filtrare_dupa_atribut]//parent::tag
+//tag[filtrare_dupa_atribut]//preceding-sibling::tag
+//tag[filtrare_dupa_atribut]//following-sibling::tag
+//tag[filtrare_dupa_atribut]//preceding-sibling::tag[x]
+//tag[filtrare_dupa_atribut]//following-sibling::tag[x]
+
+//form[@id="userForm"]//div[@id="userName-wrapper"]//following-sibling::div[8]
+
+//form[@id="userForm"]//div[@id="hobbiesWrapper"]//preceding-sibling::div
+//form[@id="userForm"]//div[@id="hobbiesWrapper"]//following-sibling::div[@id="currentAddress-wrapper"]
+
